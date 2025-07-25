@@ -1,0 +1,29 @@
+services:
+  frontend:
+    container_name: nextjs-frontend
+    build:
+      context: ./frontend
+    ports:
+      - '3000:3000'
+    networks:
+      - app-network
+    environment:
+      - BACKEND_URL=http://app:8080/omdb
+      - KEY=2e4ef014
+
+  app:
+    container_name: spring-backend
+    build:
+      context: ./backend
+    environment:
+      SPRING_OMDB_API_KEY: 2e4ef014
+      SPRING_OMDB_URL: http://www.omdbapi.com
+    ports:
+      - '8080:8080'
+    networks:
+      - app-network
+networks:
+  app-network:
+
+volumes:
+  pgdata:
